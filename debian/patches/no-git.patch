@@ -1,0 +1,20 @@
+Description: drop network test
+Author: Yadd <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2021-09-27
+
+--- a/scripts/post-build.js
++++ b/scripts/post-build.js
+@@ -2,10 +2,12 @@
+ const execa = require('execa')
+ const { generatedPath, rawCompilerOptionsFileName } = require('./lib/paths')
+ 
++/*
+ if (execa.sync('git', ['diff-index', '--name-only', 'HEAD']).stdout.includes(rawCompilerOptionsFileName)) {
+   throw new Error(
+     `Tsconfig options have changed. Please check the modified generated ${generatedPath} and commit the change`
+   )
+ }
++*/
+ 
+ computePackageDigest()

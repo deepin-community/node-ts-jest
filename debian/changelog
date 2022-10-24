@@ -1,0 +1,59 @@
+node-ts-jest (27.0.7+~cs0.2.6-1) unstable; urgency=medium
+
+  * Fix filenamemangle
+  * New upstream version 27.0.7+~cs0.2.6
+  * Embed @types/lodash.set for test only
+  * Adapt test for pkg-js-autopkgtest ≥ 0.9.75
+  * Remove embedded @types/mkdirp and @types/lodash
+  * Update patches
+  * Update test
+  * Update lintian overrides
+
+ -- Yadd <yadd@debian.org>  Tue, 19 Oct 2021 13:53:34 +0200
+
+node-ts-jest (27.0.5+~cs0.2.6-1) unstable; urgency=medium
+
+  * Fix GitHub tags regex
+  * Update standards version to 4.6.0, no changes needed.
+  * Remove embedded buffer-from
+  * New upstream version 27.0.5+~cs0.2.6
+  * Update patches
+  * Update doc
+  * Require jest ≥ 27
+  * Update build
+  * Add lintian overrides
+  * Update copyright
+
+ -- Yadd <yadd@debian.org>  Tue, 28 Sep 2021 06:02:21 +0200
+
+node-ts-jest (26.5.0+~cs2.4.7-1) unstable; urgency=medium
+
+  * New upstream version 26.5.0+~cs2.4.7
+  * Refresh patches
+  * Refresh test modules
+
+ -- Xavier Guimard <yadd@debian.org>  Wed, 03 Feb 2021 06:22:46 +0100
+
+node-ts-jest (26.4.4+~cs2.4.7-1) unstable; urgency=medium
+
+  [ lintian-brush ]
+  * Set upstream metadata fields: Bug-Submit.
+  * Remove obsolete fields Contact, Name from debian/upstream/metadata (already
+    present in machine-readable debian/copyright).
+
+  [ Xavier Guimard ]
+  * Add dependency to node-typescript
+  * Install .ts-jest-digest
+  * Install all docs
+  * WIP: enable test
+  * Embed @types/buffer-from
+  * New upstream version 26.4.4+~cs2.4.7
+  * Enable upstream test using jest
+
+ -- Xavier Guimard <yadd@debian.org>  Tue, 02 Feb 2021 13:22:58 +0100
+
+node-ts-jest (26.4.4+~cs1.3.7-1) unstable; urgency=medium
+
+  * Initial release (Closes: #979587)
+
+ -- Xavier Guimard <yadd@debian.org>  Sat, 09 Jan 2021 05:56:13 +0100

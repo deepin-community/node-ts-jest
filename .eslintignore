@@ -1,0 +1,10 @@
+dist/
+node_modules/
+e2e/__cases__/
+e2e/__workdir_synlink__/
+e2e/__external-repos__/
+coverage/
+website/src/**/*.js
+presets/index.d.ts
+*.config.js
+.eslintrc.js

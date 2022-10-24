@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+include /usr/share/dpkg/pkg-info.mk
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	mv node_modules/fast-json-stable-stringify node_modules/.fast-json-stable-stringify
+	dh_auto_build --buildsystem=nodejs
+	mv node_modules/.fast-json-stable-stringify node_modules/fast-json-stable-stringify
+	tsc -p tsconfig.build.json
+	node scripts/post-build.js
+	chmod +x cli.js
+	help2man --no-info \
+		--version-string=$(DEB_VERSION_UPSTREAM) \
+		-n 'TypeScript preprocessor with source map support for Jest' \
+		./cli.js > debian/ts-jest.1
+
+override_dh_auto_clean:
+	dh_auto_clean --buildsystem=nodejs
+	node scripts/clean.js
+
+override_dh_fixperms:
+	dh_fixperms
+	chmod +x debian/ts-jest/usr/share/nodejs/ts-jest/cli.js
+	chmod -x debian/ts-jest/usr/share/nodejs/bs-logger/package.json

@@ -1,0 +1,87 @@
+Description: fix typescript
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2021-10-19
+
+--- a/bs-logger/src/testing/target-mock.ts
++++ b/bs-logger/src/testing/target-mock.ts
+@@ -4,6 +4,7 @@
+ import { LogTarget } from '../logger/target'
+ 
+ interface ExtendedArray<T> extends Array<T> {
++  // @ts-ignore
+   readonly last: T | undefined
+ }
+ interface LogLevelMap<T> {
+@@ -15,6 +16,7 @@
+   fatal: T
+ }
+ const extendArray = <T>(array: T[]): ExtendedArray<T> => {
++  // @ts-ignore
+   return Object.defineProperty(array, 'last', {
+     configurable: true,
+     get() {
+@@ -29,6 +31,7 @@
+   readonly stream: LogTarget['stream']
+ 
+   constructor(public minLevel = -Infinity) {
++    // @ts-ignore
+     this.messages = Object.defineProperties(extendArray([] as LogMessage[]), {
+       trace: { get: () => this.filteredMessages(LogLevels.trace) },
+       debug: { get: () => this.filteredMessages(LogLevels.debug) },
+@@ -37,6 +40,7 @@
+       error: { get: () => this.filteredMessages(LogLevels.error) },
+       fatal: { get: () => this.filteredMessages(LogLevels.fatal) },
+     })
++    // @ts-ignore
+     this.lines = Object.defineProperties(extendArray([] as string[]), {
+       trace: { get: () => this.filteredLines(LogLevels.trace) },
+       debug: { get: () => this.filteredLines(LogLevels.debug) },
+--- a/src/__helpers__/mocks.ts
++++ b/src/__helpers__/mocks.ts
+@@ -23,6 +23,7 @@
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   if ((obj as any).mockRestore) backup.mockRestore = Object.getOwnPropertyDescriptor(obj, 'mockRestore')
+ 
++  // @ts-ignore
+   return Object.defineProperty(obj, 'mockRestore', {
+     value() {
+       Object.keys(backup).forEach((key) => {
+--- a/src/cli/index.ts
++++ b/src/cli/index.ts
+@@ -57,6 +57,7 @@
+     await cli(process.argv.slice(2))
+     process.exit(0)
+   } catch (err) {
++    // @ts-ignore
+     logger.fatal(err.message)
+     process.exit(1)
+   }
+--- a/src/compiler/ts-compiler.ts
++++ b/src/compiler/ts-compiler.ts
+@@ -103,6 +103,7 @@
+       /* istanbul ignore next */
+       this._moduleResolutionHost = {
+         fileExists: memoize(this._ts.sys.fileExists),
++	// @ts-ignore
+         readFile: this._cachedReadFile,
+         directoryExists: memoize(this._ts.sys.directoryExists),
+         getCurrentDirectory: () => this.configSet.cwd,
+--- a/src/utils/importer.ts
++++ b/src/utils/importer.ts
+@@ -179,6 +179,7 @@
+     path = resolveModule(moduleName)
+     exists = true
+   } catch (error) {
++    // @ts-ignore
+     return { error, exists, given: moduleName }
+   }
+   const result: RequireResult = { exists, path, given: moduleName }
+@@ -188,6 +189,7 @@
+     try {
+       result.exports = requireModule(moduleName)
+     } catch (error) {
++      // @ts-ignore
+       result.error = error
+     }
+   }

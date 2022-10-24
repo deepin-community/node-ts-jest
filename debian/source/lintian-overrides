@@ -1,0 +1,5 @@
+# False positive
+very-long-line-length-in-source-file e2e/__tests__/__snapshots__/*
+very-long-line-length-in-source-file website/src/css/custom.css line 41 is 855 characters long (>512)
+very-long-line-length-in-source-file website/static/img/discord.svg line 1 is 1106 characters long (>512)
+very-long-line-length-in-source-file website/static/img/logo.svg line 6 is 1930 characters long (>512)

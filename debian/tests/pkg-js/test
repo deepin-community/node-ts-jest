@@ -1,0 +1,7 @@
+if test "$AUTOPKGTEST_TMP" != ""; then
+	rm -f dist
+	cp -a `nodepath ts-jest`/dist .
+	cp -a `nodepath ts-jest`/.ts-jest-digest .
+	rm -f src/index.spec.ts
+fi
+jest --ci -u --testPathIgnorePatterns __mocks__

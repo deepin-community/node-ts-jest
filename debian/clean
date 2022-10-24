@@ -1,0 +1,4 @@
+.cache/
+.ts-jest-digest
+bs-logger/dist/
+debian/ts-jest.1
