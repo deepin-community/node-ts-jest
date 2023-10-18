@@ -1,4 +1,5 @@
 import type { TBabelCore, TBabelJest, TTypeScript } from '../types'
+import type { TEsBuild } from '../types'
 
 import { rootLogger } from './logger'
 import { Memoize } from './memoize'
@@ -59,6 +60,10 @@ export class Importer {
     return this._import(why, which)
   }
 
+  esBuild(why: ImportReasons): TEsBuild {
+    return this._import(why, 'esbuild')
+  }
+
   @Memoize((...args: string[]) => args.join(':'))
   tryThese(moduleName: string, ...fallbacks: string[]): RequireResult<true> | undefined {
     let name: string
@@ -87,7 +92,6 @@ export class Importer {
       } else {
         // module does not exists in the path
         logger.debug({ requireResult: contextReq }, `module '${name}' not found`)
-        continue
       }
     }
 
@@ -120,12 +124,12 @@ export class Importer {
     return unpatched
   }
 
-  protected _import(
+  protected _import<T>(
     why: string,
     moduleName: string,
     { alternatives = [], installTip = moduleName }: ImportOptions = {},
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): any {
+  ): T {
     // try to load any of the alternative after trying main one
     const res = this.tryThese(moduleName, ...alternatives)
     // if we could load one, return it
@@ -179,7 +183,7 @@ function requireWrapper(moduleName: string): RequireResult {
     path = resolveModule(moduleName)
     exists = true
   } catch (error) {
-    return { error, exists, given: moduleName }
+    return { error: error as Error, exists, given: moduleName }
   }
   const result: RequireResult = { exists, path, given: moduleName }
   try {
@@ -188,7 +192,7 @@ function requireWrapper(moduleName: string): RequireResult {
     try {
       result.exports = requireModule(moduleName)
     } catch (error) {
-      result.error = error
+      result.error = error as Error
     }
   }
 

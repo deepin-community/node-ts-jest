@@ -1,8 +1,8 @@
-import { LogContexts, Logger } from 'bs-logger'
+import { LogContexts, type Logger } from 'bs-logger'
 import type { Arguments } from 'yargs'
 import yargsParser from 'yargs-parser'
 
-import { rootLogger } from '../utils/logger'
+import { rootLogger } from '../utils'
 
 const VALID_COMMANDS = ['help', 'config:migrate', 'config:init']
 
@@ -11,7 +11,11 @@ const logger = rootLogger.child({ [LogContexts.namespace]: 'cli', [LogContexts.a
 /**
  * @internal
  */
-export type CliCommand = (argv: Arguments, logger: Logger) => Promise<void>
+export type CliCommandArgs = Omit<Arguments, '$0'> & { _: Array<string | number> }
+/**
+ * @internal
+ */
+export type CliCommand = (argv: CliCommandArgs, logger: Logger) => Promise<void>
 
 async function cli(args: string[]): Promise<void> {
   const parsedArgv = yargsParser(args, {
@@ -49,6 +53,12 @@ async function cli(args: string[]): Promise<void> {
   return cmd(parsedArgv, logger)
 }
 
+const errorHasMessage = (err: unknown): err is { message: string } => {
+  if (typeof err !== 'object' || err === null) return false
+
+  return 'message' in err
+}
+
 /**
  * @internal
  */
@@ -57,7 +67,9 @@ export async function processArgv(): Promise<void> {
     await cli(process.argv.slice(2))
     process.exit(0)
   } catch (err) {
-    logger.fatal(err.message)
-    process.exit(1)
+    if (errorHasMessage(err)) {
+      logger.fatal(err.message)
+      process.exit(1)
+    }
   }
 }

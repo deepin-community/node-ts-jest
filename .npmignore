@@ -1,5 +1,6 @@
 # Tests
 e2e
+examples
 
 # sources are inlined
 src
@@ -26,6 +27,7 @@ jest-base.js
 
 # Tsconfig
 tsconfig.build.json
+tsconfig.eslint.json
 tsconfig.json
 tsconfig.spec.json
 
@@ -55,6 +57,7 @@ node_modules
 icon.png
 .idea
 .husky
+renovate.json
 
 # ensure we do not omit the digest
 !.ts-jest-digest

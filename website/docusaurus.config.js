@@ -35,7 +35,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'manifest',
-            href: `/manifest.json`,
+            href: '/manifest.json',
           },
           {
             tagName: 'meta',
@@ -82,9 +82,15 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/kulshekhar/ts-jest/edit/main/website',
-          remarkPlugins: [simplePlantUML],
+          remarkPlugins: [
+            simplePlantUML,
+            [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
+            require('docusaurus-remark-plugin-tab-blocks'),
+          ],
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -93,7 +99,11 @@ module.exports = {
     ],
   ],
   themeConfig: {
-    hideableSidebar: true,
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,

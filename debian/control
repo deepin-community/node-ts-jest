@@ -1,65 +1,66 @@
 Source: node-ts-jest
-Section: javascript
-Priority: optional
 Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
 Uploaders: Yadd <yadd@debian.org>
+Section: javascript
 Testsuite: autopkgtest-pkg-nodejs
+Priority: optional
 Build-Depends: debhelper-compat (= 13)
  , dh-sequence-nodejs (>= 0.9.61)
  , help2man
- , jest (>= 27)
- , node-ansi-regex <!nocheck>
- , node-ansi-styles <!nocheck>
- , node-babel7 <!nocheck>
- , node-base <!nocheck>
- , node-braces <!nocheck>
- , node-chalk <!nocheck>
- , node-color-convert <!nocheck>
- , node-color-name <!nocheck>
- , node-convert-source-map <!nocheck>
- , node-debug <!nocheck>
- , node-escape-string-regexp <!nocheck>
- , node-esutils <!nocheck>
+ , jest (>= 29)
+ , node-ansi-regex
+ , node-ansi-styles
+ , node-babel7
+ , node-base
+ , node-braces
+ , node-chalk
+ , node-color-convert
+ , node-color-name
+ , node-convert-source-map
+ , node-debug
+ , node-esbuild <!nocheck>
+ , node-escape-string-regexp
+ , node-esutils
  , node-fast-json-stable-stringify
- , node-fill-range <!nocheck>
+ , node-fill-range
  , node-fs-extra
- , node-has-flag <!nocheck>
- , node-is-number <!nocheck>
+ , node-has-flag
+ , node-is-number
  , node-istanbul <!nocheck>
  , node-js-yaml <!nocheck>
- , node-jest-debbundle (>=27) <!nocheck>
  , node-json-stable-stringify <!nocheck>
  , node-json5
  , node-lodash
  , node-make-error
- , node-mkdirp (>= 1.0)
+ , node-mkdirp
  , node-react <!nocheck>
- , node-semver (>= 7.0)
+ , node-semver
  , node-types-babel-core
  , node-types-lodash
  , node-types-react
  , node-typescript
  , node-yargs
  , node-yargs-parser
-Standards-Version: 4.6.0
-Homepage: https://kulshekhar.github.io/ts-jest
-Vcs-Git: https://salsa.debian.org/js-team/node-ts-jest.git
+Standards-Version: 4.6.2
 Vcs-Browser: https://salsa.debian.org/js-team/node-ts-jest
+Vcs-Git: https://salsa.debian.org/js-team/node-ts-jest.git
+Homepage: https://kulshekhar.github.io/ts-jest
 Rules-Requires-Root: no
 
 Package: ts-jest
 Architecture: all
 Depends: ${misc:Depends}
- , jest (>= 27)
+ , jest (>= 29)
  , node-fast-json-stable-stringify
  , node-json5
- , node-lodash
+ , node-lodash-packages
  , node-make-error
- , node-mkdirp (>= 1.0)
- , node-semver (>= 7.0)
+ , node-mkdirp
+ , node-semver
  , node-typescript
  , node-yargs-parser
- , nodejs
+ , nodejs:any (>= 14)
+Suggests: node-esbuild
 Provides: ${nodejs:Provides}
 Description: TypeScript preprocessor with source map support for Jest
  Jest is a popular test framework for JavaScript projects. ts-jest

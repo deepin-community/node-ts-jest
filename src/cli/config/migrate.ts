@@ -5,16 +5,15 @@ import type { Config } from '@jest/types'
 import { createLogger } from 'bs-logger'
 import stableStringify from 'fast-json-stable-stringify'
 import { stringify as stringifyJson5 } from 'json5'
-import type { Arguments } from 'yargs'
 
-import type { CliCommand } from '..'
+import type { CliCommand, CliCommandArgs } from '..'
 import { backportJestConfig } from '../../utils/backports'
 import { JestPresetNames, TsJestPresetDescriptor, allPresets, defaults } from '../helpers/presets'
 
 /**
  * @internal
  */
-export const run: CliCommand = async (args: Arguments /* , logger: Logger*/) => {
+export const run: CliCommand = async (args: CliCommandArgs /* , logger: Logger*/) => {
   const nullLogger = createLogger({ targets: [] })
   const file = args._[0]?.toString()
   const filePath = resolve(process.cwd(), file)
@@ -116,19 +115,56 @@ Visit https://kulshekhar.github.io/ts-jest/user/config/#jest-preset for more inf
     Object.keys(migratedConfig.transform).forEach((key) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const val = (migratedConfig.transform as any)[key]
-      if (typeof val === 'string' && /\/?ts-jest(?:\/preprocessor\.js)?$/.test(val)) {
+      if (typeof val === 'string' && /\/?ts-jest?(?:\/preprocessor\.js)?$/.test(val)) {
         // eslint-disable-next-line
         ;(migratedConfig.transform as any)[key] = 'ts-jest'
       }
     })
   }
+
+  // migrate globals config to transformer config
+  const globalsTsJestConfig = migratedConfig.globals?.['ts-jest']
+  if (globalsTsJestConfig && migratedConfig.transform) {
+    Object.keys(migratedConfig.transform).forEach((key) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const val = (migratedConfig.transform as any)[key]
+      if (typeof val === 'string' && val.includes('ts-jest')) {
+        // eslint-disable-next-line
+        ;(migratedConfig.transform as any)[key] = Object.keys(globalsTsJestConfig).length ? [val, globalsTsJestConfig] : val
+      }
+    })
+    delete (migratedConfig.globals ?? Object.create(null))['ts-jest']
+  }
+
   // check if it's the same as the preset's one
-  if (
-    preset &&
-    migratedConfig.transform &&
-    stableStringify(migratedConfig.transform) === stableStringify(preset.value.transform)
-  ) {
-    delete migratedConfig.transform
+  if (preset && migratedConfig.transform) {
+    if (stableStringify(migratedConfig.transform) === stableStringify(preset.value.transform)) {
+      delete migratedConfig.transform
+    } else {
+      const migratedConfigTransform = migratedConfig.transform
+      const presetValueTransform = preset.value.transform
+      if (migratedConfigTransform && presetValueTransform) {
+        migratedConfig.transform = Object.entries(migratedConfigTransform).reduce(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (acc: undefined | Record<string, any>, [fileRegex, transformerConfig]) => {
+            const presetValueTransformerConfig = presetValueTransform[fileRegex]
+            const shouldRemoveDuplicatedConfig =
+              (presetValueTransformerConfig &&
+                Array.isArray(presetValueTransformerConfig) &&
+                transformerConfig === presetValueTransformerConfig[0] &&
+                !Object.keys(presetValueTransformerConfig[1]).length) ||
+              transformerConfig === presetValueTransformerConfig
+
+            return shouldRemoveDuplicatedConfig
+              ? acc
+              : acc
+              ? { ...acc, [fileRegex]: transformerConfig }
+              : { [fileRegex]: transformerConfig }
+          },
+          undefined,
+        )
+      }
+    }
   }
 
   // cleanup

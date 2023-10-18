@@ -1,0 +1,12 @@
+{
+  "jest": {
+    "transform": {
+      "^.+.[tj]sx?$": ["<rootDir>/../../legacy.js", {
+        "isolatedModules": true,
+        "tsconfig": {
+          "allowJs": true
+        }
+      }]
+    }
+  }
+}

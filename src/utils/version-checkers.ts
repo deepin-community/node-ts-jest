@@ -12,9 +12,9 @@ const logger = rootLogger.child({ namespace: 'versions' })
  * Don't forget to update peerDependencies in package.json when changing these.
  */
 const enum ExpectedVersions {
-  Jest = '>=27.0.0 <28',
-  TypeScript = '>=3.8 <5',
-  BabelJest = '>=27.0.0 <28',
+  Jest = '>=29.0.0 <30',
+  TypeScript = '>=4.3 <6',
+  BabelJest = '>=29.0.0 <30',
   BabelCore = '>=7.0.0-beta.0 <8',
 }
 
@@ -43,9 +43,7 @@ type CheckVersionAction = 'warn' | 'throw'
  * @internal
  */
 function checkVersion(name: string, expectedRange: string, action?: Exclude<CheckVersionAction, 'throw'>): boolean
-// eslint-disable-next-line no-redeclare
 function checkVersion(name: string, expectedRange: string, action: 'throw'): true | never
-// eslint-disable-next-line no-redeclare
 function checkVersion(
   name: string,
   expectedRange: string,

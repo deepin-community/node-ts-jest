@@ -1,1 +1,3 @@
+mv ../node_modules/fast-json-stable-stringify ../node_modules/fast-json-stable-stringify.save
 tsc -p tsconfig.build.json
+mv ../node_modules/fast-json-stable-stringify.save ../node_modules/fast-json-stable-stringify

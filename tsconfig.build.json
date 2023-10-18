@@ -4,10 +4,9 @@
     "module": "CommonJS",
     "target": "ES5",
     "declaration": true,
-    "removeComments": true,
     "stripInternal": true,
     "outDir": "dist"
   },
   "include": ["src"],
-  "exclude": ["**/*.spec.ts", "src/__helpers__", "**/__mocks__", "src/__serializers__"]
+  "exclude": ["**/*.spec.ts", "**/__mocks__", "src/__helpers__"]
 }

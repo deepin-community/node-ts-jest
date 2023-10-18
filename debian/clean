@@ -2,3 +2,5 @@
 .ts-jest-digest
 bs-logger/dist/
 debian/ts-jest.1
+dist/
+e2e/coverage-report/coverage/

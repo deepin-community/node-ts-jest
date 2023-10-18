@@ -1,71 +1,17 @@
-ansi-regex	test
-ansi-styles	test
-@babel/code-frame	test
-@babel/core	test
-@babel/generator	test
-@babel/helper-function-name	test
-@babel/helper-get-function-arity	test
-@babel/helper-plugin-utils	test
-@babel/helper-split-export-declaration	test
-@babel/helper-validator-identifier	test
-@babel/highlight	test
-babel-jest	test
-@babel/parser	test
-babel-plugin-istanbul	test
-babel-plugin-jest-hoist	test
-@babel/plugin-syntax-async-generators	test
-@babel/plugin-syntax-bigint	test
-@babel/plugin-syntax-class-properties	test
-@babel/plugin-syntax-import-meta	test
-@babel/plugin-syntax-json-strings	test
-@babel/plugin-syntax-numeric-separator	test
-@babel/plugin-syntax-object-rest-spread	test
-@babel/plugin-syntax-optional-catch-binding	test
-babel-preset-current-node-syntax	test
-babel-preset-jest	test
-@babel/template	test
-@babel/traverse	test
-@babel/types	test
-base	test
-braces	test
-chalk	test
-color-convert	test
-color-name	test
-convert-source-map	test
-debug	test
-escape-string-regexp	test
-esutils	test
-expect	test
-fill-range	test
-fs-extra	test
-gensync	test
-has-flag	test
-is-number	test
-jest-config	test
-@jest/core	test
-jest-diff
-jest-environment-node	test
-jest-get-type	test
-jest-jasmine2	test
-jest-matcher-utils	test
-jest-message-util	test
-jest	test
+babel-jest
+fast-json-stable-stringify
+@jest/environment
 @jest/transform
 @jest/types
 jest-util
 json5
-lodash.set	test
 make-error
-pretty-format
-source-map	test
-@types/babel__core
 typescript
-@types/fs-extra	test
-@types/js-yaml	test
-@types/lodash
-@types/mkdirp
+@types/babel__core
+@types/jest
+@types/lodash.memoize
+@types/lodash.set	test
 @types/node
-@types/react
 @types/semver
 @types/yargs
 @types/yargs-parser
