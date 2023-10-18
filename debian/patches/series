@@ -1,4 +1,3 @@
-#privacy.patch
-fix-test-paths.patch
 no-git.patch
+fix-test-paths.patch
 fix-typescript.patch

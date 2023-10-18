@@ -4,4 +4,5 @@ if test "$AUTOPKGTEST_TMP" != ""; then
 	cp -a `nodepath ts-jest`/.ts-jest-digest .
 	rm -f src/index.spec.ts
 fi
-jest --ci -u --testPathIgnorePatterns __mocks__
+jest --ci -u --testPathIgnorePatterns __mocks__ .pc bs-logger e2e \
+	src/config/config-set.spec.ts

@@ -1,103 +1,64 @@
-import { LogContexts, LogLevels } from 'bs-logger'
+import path from 'path'
 
-import { allValidPackageSets } from '../__helpers__/templates'
-import { configureTestCase } from '../__helpers__/test-case'
+import execa from 'execa'
 
-describe('AST transformers', () => {
-  describe('hoisting', () => {
-    const testCase = configureTestCase('ast-transformers/hoisting', {
-      jestConfig: {
-        testEnvironment: 'node',
-        automock: true,
-      },
-    })
+import { json as runWithJson } from '../run-jest'
+import { runNpmInstall, tsJestBundle } from '../utils'
 
-    testCase.runWithTemplates(allValidPackageSets, 0, (runTest, { testLabel }) => {
-      it(testLabel, () => {
-        const result = runTest()
-        expect(result.status).toBe(0)
-      })
+const AST_TRANSFORMERS_DIR_NAME = 'ast-transformers'
+
+const executeTest = (testDir: string): void => {
+  test(`successfully runs the tests inside ${testDir} with isolatedModules: false`, () => {
+    const { json } = runWithJson(testDir)
+
+    expect(json.success).toBe(true)
+  })
+
+  test(`successfully runs the tests inside ${testDir} with isolatedModules: true`, () => {
+    const { json } = runWithJson(testDir, ['-c=jest-isolated.config.js'])
+
+    expect(json.success).toBe(true)
+  })
+}
+
+describe('transformer-options', () => {
+  const TRANSFORM_OPT_DIR_NAME = 'transformer-options'
+
+  beforeAll(() => {
+    runNpmInstall(path.join(__dirname, '..', AST_TRANSFORMERS_DIR_NAME, TRANSFORM_OPT_DIR_NAME))
+  })
+
+  test(`successfully runs the tests inside ${AST_TRANSFORMERS_DIR_NAME}/${TRANSFORM_OPT_DIR_NAME}`, () => {
+    const { json } = runWithJson(`${AST_TRANSFORMERS_DIR_NAME}/${TRANSFORM_OPT_DIR_NAME}`)
+
+    expect(json.success).toBe(true)
+  })
+})
+
+describe('hoist-jest', () => {
+  const HOIST_JEST_DIR_NAME = 'hoist-jest'
+  const DIR = path.join(__dirname, '..', AST_TRANSFORMERS_DIR_NAME, HOIST_JEST_DIR_NAME)
+
+  beforeAll(() => {
+    runNpmInstall(DIR)
+    execa.sync('npm', ['install', '--no-package-lock', '--no-shrinkwrap', '--no-save', tsJestBundle], {
+      cwd: DIR,
     })
   })
 
-  describe('path mapping', () => {
-    const tsJestConfig = {
-      tsconfig: {
-        baseUrl: '.',
-        paths: {
-          '@share/*': ['share/*']
-        }
-      },
-      astTransformers: {
-        before: [
-          'ts-jest/dist/transformers/path-mapping'
-        ],
-      },
-    }
+  executeTest(`${AST_TRANSFORMERS_DIR_NAME}/${HOIST_JEST_DIR_NAME}`)
+})
 
-    describe('without rootDirs', () => {
-      const testCase = configureTestCase('ast-transformers/path-mapping', {
-        env: { TS_JEST_LOG: 'ts-jest.log' },
-        tsJestConfig,
-      })
+describe('transformer-in-ts', () => {
+  const DIR = path.join(__dirname, '..', AST_TRANSFORMERS_DIR_NAME, 'transformer-in-ts')
 
-      testCase.runWithTemplates(allValidPackageSets, 0, (runTest, { testLabel }) => {
-        it(testLabel, () => {
-          const result = runTest()
-          expect(result.status).toBe(0)
-        })
-      })
-    })
-
-    describe('with rootDirs', () => {
-      const testCase = configureTestCase('ast-transformers/path-mapping', {
-        tsJestConfig: {
-          ...tsJestConfig,
-          tsconfig: {
-            ...tsJestConfig.tsconfig,
-            rootDirs: ['./'],
-          },
-        },
-      })
-
-      testCase.runWithTemplates(allValidPackageSets, 0, (runTest, { testLabel }) => {
-        it(testLabel, () => {
-          const result = runTest()
-          expect(result.status).toBe(0)
-        })
-      })
-    })
+  beforeAll(() => {
+    runNpmInstall(DIR)
   })
 
-  describe('with extra options', () => {
-    const testCase = configureTestCase('ast-transformers/with-extra-options', {
-      env: { TS_JEST_LOG: 'ts-jest.log' },
-      noCache: true, // no cache is required when testing against logging otherwise other tests will clear logging
-      tsJestConfig: {
-        astTransformers: {
-          before: [{
-            path: require.resolve('../__cases__/ast-transformers/with-extra-options/foo'),
-            options: {
-              foo: 'bar',
-            },
-          }],
-        },
-      },
-    })
+  test(`successfully runs the tests inside ${DIR}`, () => {
+    const { json } = runWithJson(DIR)
 
-    testCase.runWithTemplates(allValidPackageSets, 0, (runTest, { testLabel }) => {
-      it(testLabel, () => {
-        const result = runTest()
-        expect(result.status).toBe(0)
-        const filteredEntries = result.logFileEntries
-          // keep only debug and above
-          .filter(m => (m.context[LogContexts.logLevel] || 0) >= LogLevels.debug)
-          // simplify entries
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          .map(e => result.normalize(`[level:${e.context[LogContexts.logLevel]}] ${e.message}`))
-          .filter(logging => logging.includes('Dummy transformer with extra options'))
-        expect(filteredEntries).toMatchSnapshot()
-      })
-    })
+    expect(json.success).toBe(true)
   })
 })

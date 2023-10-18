@@ -9,13 +9,12 @@ const moduleNotFound = (mod: string) => {
   throw err
 }
 const fakeFullPath = (mod: string) => `/root/${mod}.js`
-const requireModule = jest.fn((mod) => (mod in modules ? modules[mod]() : moduleNotFound(mod)))
-const resolveModule = jest.fn((mod) => (mod in modules ? fakeFullPath(mod) : moduleNotFound(mod)))
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-__requireModule(requireModule as any, resolveModule)
+const requireModule = jest.fn((mod: string) => (mod in modules ? modules[mod]() : moduleNotFound(mod)))
+const resolveModule = jest.fn((mod: string) => (mod in modules ? fakeFullPath(mod) : moduleNotFound(mod)))
+__requireModule(requireModule, resolveModule)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let modules!: { [key: string]: () => any }
+let modules: { [key: string]: () => any }
 beforeEach(() => {
   modules = {}
   requireModule.mockClear()
@@ -37,13 +36,13 @@ describe('tryThese', () => {
       success: () => 'ok',
     }
     expect(new Importer().tryThese('missing1', 'missing2', 'success')).toMatchInlineSnapshot(`
-Object {
-  "exists": true,
-  "exports": "ok",
-  "given": "success",
-  "path": "/root/success.js",
-}
-`)
+      {
+        "exists": true,
+        "exports": "ok",
+        "given": "success",
+        "path": "/root/success.js",
+      }
+    `)
   })
   it('should return the error when one is failing', () => {
     modules = {
@@ -90,8 +89,8 @@ describe('tryTheseOr', () => {
 })
 
 describe('patcher', () => {
-  const patch1 = jest.fn((mod) => ({ ...mod, p1: true }))
-  const patch2 = jest.fn((mod) => ({ ...mod, p2: true }))
+  const patch1 = jest.fn((mod: object) => ({ ...mod, p1: true }))
+  const patch2 = jest.fn((mod: object) => ({ ...mod, p2: true }))
 
   it('should apply patches correctly', () => {
     const imp = new Importer({ foo: [patch1, patch2] })
@@ -119,9 +118,9 @@ describe('babelCore', () => {
   })
   it('should fail with correct error message', () => {
     expect(() => new Importer().babelCore(fakers.importReason())).toThrowErrorMatchingInlineSnapshot(`
-"Unable to load the module \\"@babel/core\\". [[BECAUSE]] To fix it:
-    ↳ install \\"@babel/core\\": \`npm i -D @babel/core\` (or \`yarn add --dev @babel/core\`)"
-`)
+      "Unable to load the module "@babel/core". [[BECAUSE]] To fix it:
+          ↳ install "@babel/core": \`npm i -D @babel/core\` (or \`yarn add --dev @babel/core\`)"
+    `)
   })
 })
 
@@ -134,9 +133,9 @@ describe('babelJest', () => {
   })
   it('should fail with correct error message', () => {
     expect(() => new Importer().babelJest(fakers.importReason())).toThrowErrorMatchingInlineSnapshot(`
-"Unable to load the module \\"babel-jest\\". [[BECAUSE]] To fix it:
-    ↳ install \\"babel-jest\\": \`npm i -D babel-jest\` (or \`yarn add --dev babel-jest\`)"
-`)
+      "Unable to load the module "babel-jest". [[BECAUSE]] To fix it:
+          ↳ install "babel-jest": \`npm i -D babel-jest\` (or \`yarn add --dev babel-jest\`)"
+    `)
   })
 })
 

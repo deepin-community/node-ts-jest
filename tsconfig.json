@@ -13,9 +13,10 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "checkJs": false,
     "target": "es2015",
     "module": "ESNext",
     "lib": ["esnext"],
-    "types": ["node", "jest"]
+    "types": ["node", "./globals"]
   }
 }

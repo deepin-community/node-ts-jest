@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "esbuild": "~0.17.19"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[tj]sx?$": ["<rootDir>/../../../legacy.js", {
+        "astTransformers": {
+          "before": ["<rootDir>/../../../src/transformers/hoist-jest.ts"]
+        }
+      }]
+    }
+  }
+}

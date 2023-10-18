@@ -1,0 +1,9 @@
+{
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": ["./foo-transformer.js", {
+        "isolatedModules": true
+      }]
+    }
+  }
+}

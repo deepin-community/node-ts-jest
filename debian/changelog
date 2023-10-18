@@ -1,3 +1,148 @@
+node-ts-jest (29.1.1+~cs0.2.6-2) unstable; urgency=medium
+
+  * Update copyright
+  * Move node-esbuild to suggested dependencies
+  * Embed jest-snapshot-serializer-raw for test only
+  * Drop all package-lock.json files from examples directory
+
+ -- Yadd <yadd@debian.org>  Wed, 16 Aug 2023 08:39:52 +0400
+
+node-ts-jest (29.1.1+~cs0.2.6-1) unstable; urgency=medium
+
+  * Declare compliance with policy 4.6.2
+  * New upstream version 29.1.1+~cs0.2.6
+  * Unfuzz patches
+
+ -- Yadd <yadd@debian.org>  Wed, 26 Jul 2023 13:29:51 +0400
+
+node-ts-jest (29.0.3+~cs0.2.6-1) unstable; urgency=medium
+
+  * Fix debian/watch
+  * New upstream version 29.0.3+~cs0.2.6
+  * Require jest >= 29
+  * Require nodejs >= 14
+  * Refresh patches
+
+ -- Yadd <yadd@debian.org>  Thu, 29 Sep 2022 13:32:01 +0200
+
+node-ts-jest (28.0.8+~cs0.2.6-3) unstable; urgency=medium
+
+  * Fix nocheck target
+  * Install examples
+
+ -- Yadd <yadd@debian.org>  Mon, 19 Sep 2022 12:29:55 +0200
+
+node-ts-jest (28.0.8+~cs0.2.6-2) unstable; urgency=medium
+
+  * Update build links (Closes: #1020142)
+
+ -- Yadd <yadd@debian.org>  Mon, 19 Sep 2022 12:23:08 +0200
+
+node-ts-jest (28.0.8+~cs0.2.6-1) unstable; urgency=medium
+
+  * New upstream version 28.0.8+~cs0.2.6
+
+ -- Yadd <yadd@debian.org>  Mon, 22 Aug 2022 09:29:37 +0200
+
+node-ts-jest (28.0.7+~cs0.2.6-1) unstable; urgency=medium
+
+  * New upstream version 28.0.7+~cs0.2.6
+  * Unfuzz patches
+
+ -- Yadd <yadd@debian.org>  Mon, 18 Jul 2022 08:01:11 +0200
+
+node-ts-jest (28.0.5+~cs0.2.6-1) unstable; urgency=medium
+
+  * Declare compliance with policy 4.6.1
+  * New upstream version 28.0.5+~cs0.2.6
+  * Unfuzz patches
+
+ -- Yadd <yadd@debian.org>  Tue, 28 Jun 2022 11:10:28 +0200
+
+node-ts-jest (28.0.2+~cs0.2.6-2) unstable; urgency=medium
+
+  * Back to unstable
+
+ -- Yadd <yadd@debian.org>  Tue, 10 May 2022 14:23:57 +0200
+
+node-ts-jest (28.0.2+~cs0.2.6-1) experimental; urgency=medium
+
+  * debian/watch: accept any versions
+  * New upstream version 28.0.2+~cs0.2.6
+  * Require jest >= 28 and recommends node-esbuild
+  * Update patches
+  * Update build
+
+ -- Yadd <yadd@debian.org>  Tue, 10 May 2022 06:25:22 +0200
+
+node-ts-jest (27.1.4+~cs0.2.6-3) unstable; urgency=medium
+
+  * Clean links needed to build (Closes: #1009596)
+
+ -- Yadd <yadd@debian.org>  Wed, 13 Apr 2022 08:22:30 +0200
+
+node-ts-jest (27.1.4+~cs0.2.6-2) unstable; urgency=medium
+
+  * Drop bad dependency to node-jest-snapshot-serializer-raw
+
+ -- Yadd <yadd@debian.org>  Mon, 28 Mar 2022 20:43:15 +0200
+
+node-ts-jest (27.1.4+~cs0.2.6-1) unstable; urgency=medium
+
+  * New upstream version 27.1.4+~cs0.2.6
+  * Refresh patches
+  * Drop suggested dependency to node-esbuild
+
+ -- Yadd <yadd@debian.org>  Sat, 26 Mar 2022 07:39:51 +0100
+
+node-ts-jest (27.1.3+~cs0.2.6-2) unstable; urgency=medium
+
+  * Update typescript patch (Closes: #1007862)
+
+ -- Yadd <yadd@debian.org>  Fri, 18 Mar 2022 06:23:34 +0100
+
+node-ts-jest (27.1.3+~cs0.2.6-1) unstable; urgency=medium
+
+  * Suggested dependency: node-esbuild
+  * New upstream version 27.1.3+~cs0.2.6
+
+ -- Yadd <yadd@debian.org>  Mon, 17 Jan 2022 08:55:16 +0100
+
+node-ts-jest (27.1.2+~cs0.2.6-1) unstable; urgency=medium
+
+  * New upstream version 27.1.2+~cs0.2.6
+  * Only test-depends on esbuild since 27.1.2
+  * Update nodejs dependency to nodejs:any
+
+ -- Yadd <yadd@debian.org>  Thu, 23 Dec 2021 22:51:39 +0100
+
+node-ts-jest (27.1.0+~cs0.2.6-2) unstable; urgency=medium
+
+  * Update clean
+  * Use new node-esbuild
+  * Back to unstable
+
+ -- Yadd <yadd@debian.org>  Thu, 23 Dec 2021 22:22:49 +0100
+
+node-ts-jest (27.1.0+~cs0.2.6-1) experimental; urgency=medium
+
+  * New upstream version 27.1.0+~cs0.2.6
+  * Update patches
+  * Disable features that requires esbuild (not available in Debian)
+    + disable related tests
+    + add README.Debian to explain that
+  * Update build
+  * Require virtual node-jest-snapshot-serializer-raw
+  * Drop some useless lintian overrides
+
+ -- Yadd <yadd@debian.org>  Mon, 06 Dec 2021 10:54:25 +0100
+
+node-ts-jest (27.0.7+~cs0.2.6-2) unstable; urgency=medium
+
+  * Update tsc bug workaround (Closes: #1002278)
+
+ -- Yadd <yadd@debian.org>  Wed, 22 Dec 2021 18:07:29 +0100
+
 node-ts-jest (27.0.7+~cs0.2.6-1) unstable; urgency=medium
 
   * Fix filenamemangle

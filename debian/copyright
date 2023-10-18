@@ -13,7 +13,7 @@ Copyright: 2018 Huafu Gandon
 License: Expat
 
 Files: debian/*
-Copyright: 2021 Yadd <yadd@debian.org>
+Copyright: 2021-2023 Yadd <yadd@debian.org>
 License: Expat
 
 Files: debian/build_modules/glob-gitignore/*
@@ -30,8 +30,12 @@ Copyright: 2020 Ryan Zimmerman <opensrc@ryanzim.com>
 License: ISC
 
 Files: debian/build_modules/@types/*
- debian/tests/test_modules/@types/*
 Copyright: Microsoft Corporation
+License: Expat
+
+Files: e2e/native-esm-js/from-cjs.mjs
+ website/src/pages/styles.module.css
+Copyright: Facebook, Inc. and its affiliates
 License: Expat
 
 License: Expat

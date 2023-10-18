@@ -1,8 +1,9 @@
 version=4
 opts=\
 dversionmangle=auto,\
-filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-ts-jest-$1/ \
- https://github.com/kulshekhar/ts-jest/releases .*/archive/.*/v?([\d\.]+).tar.gz group
+uversionmangle=s/-/~/g,\
+filenamemangle=s/.*?(@ANY_VERSION@@ARCHIVE_EXT@)/node-ts-jest-$1/ \
+ https://github.com/kulshekhar/ts-jest/tags .*/archive/.*/v?@ANY_VERSION@.tar.gz group
 
 opts=\
 component=bs-logger,\

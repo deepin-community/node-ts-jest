@@ -1,7 +1,6 @@
 import { logTargetMock } from '../__helpers__/mocks'
 
 import * as _pv from './get-package-version'
-import { mocked } from './testing'
 import { VersionChecker, VersionCheckers } from './version-checkers'
 
 const logTarget = logTargetMock()
@@ -12,26 +11,26 @@ beforeEach(() => {
 
 jest.mock('./get-package-version')
 
-const pv = mocked(_pv)
+const pv = jest.mocked(_pv)
 
-describeChecker(VersionCheckers.jest, 'jest', ['27.0.0'], [undefined, '23.6.0', '24.1.0', '28.0.0'])
-describeChecker(VersionCheckers.babelJest, 'babel-jest', ['27.0.0'], [undefined, '23.6.0', '24.1.0', '28.0.0'])
+describeChecker(VersionCheckers.jest, 'jest', ['29.0.0'], [undefined, '23.6.0', '24.1.0', '30.0.0'])
+describeChecker(VersionCheckers.babelJest, 'babel-jest', ['29.0.0'], [undefined, '23.6.0', '24.1.0', '30.0.0'])
 describeChecker(VersionCheckers.babelCore, '@babel/core', ['7.0.0'], [undefined, '6.0.0', '8.0.0'])
-describeChecker(VersionCheckers.typescript, 'typescript', ['3.8.0', '3.8.3'], [undefined, '3.3.0', '5.0.0'])
+describeChecker(VersionCheckers.typescript, 'typescript', ['4.3.0', '4.3.5', '5.0.0'], [undefined, '4.2.0', '6.0.0'])
 
 function describeChecker(
   checker: VersionChecker,
   moduleName: string,
   supportedVersions: string[],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  unsupportedVersions: any[],
+  unsupportedVersions: Array<string | undefined>,
 ) {
+  // eslint-disable-next-line jest/valid-title
   describe(moduleName, () => {
     beforeEach(() => {
       checker.forget()
     })
 
-    unsupportedVersions.forEach((testVersion: string) => {
+    unsupportedVersions.forEach((testVersion) => {
       describe(`unsupported version (${testVersion})`, () => {
         beforeEach(() => {
           pv.getPackageVersion.mockImplementation((name) => (name === moduleName ? testVersion : undefined))

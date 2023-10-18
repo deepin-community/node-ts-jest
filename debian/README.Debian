@@ -1,0 +1,4 @@
+# ts-jest
+
+Features that requires esbuild are disabled for now. This means that option
+"astTransformers" doesn't work for .ts files

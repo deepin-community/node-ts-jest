@@ -1,16 +1,27 @@
 Description: fix test paths
-Author: Xavier Guimard <yadd@debian.org>
+Author: Yadd <yadd@debian.org>
 Forwarded: not-needed
-Last-Update: 2021-01-11
+Last-Update: 2022-05-10
 
---- a/src/config/config-set.spec.ts
-+++ b/src/config/config-set.spec.ts
-@@ -651,7 +651,7 @@
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+--- a/src/legacy/config/config-set.spec.ts
++++ b/src/legacy/config/config-set.spec.ts
+@@ -688,7 +688,7 @@
      const cs = createConfigSet({ jestConfig: { rootDir: '/root', cwd: '/cwd' } as any, resolve: null })
      const doResolve = (path: string) => cs.resolvePath(path, { throwIfMissing: false, nodeResolve: true })
--    expect(doResolve('json5')).toBe(resolve(__dirname, '../../node_modules/json5', require('json5/package.json').main))
-+    expect(doResolve('json5')).toBe("/usr/share/nodejs/json5/lib/index.js")
+     expect(doResolve('json5')).toBe(
+-      resolve(__dirname, '../../../node_modules/json5', require('json5/package.json').main),
++      resolve('/usr/share/nodejs/json5', require('json5/package.json').main),
+     )
      expect(doResolve('./bar.js')).toBe(resolve('/cwd/bar.js'))
      expect(doResolve('<rootDir>bar.js')).toBe(resolve('/root/bar.js'))
-     expect(doResolve('<rootDir>/bar.js')).toBe(resolve('/root//bar.js'))
+--- a/src/utils/get-package-version.spec.ts
++++ b/src/utils/get-package-version.spec.ts
+@@ -3,7 +3,7 @@
+ import { getPackageVersion } from './get-package-version'
+ 
+ it('should get the version of a package', () => {
+-  const version = require('../../node_modules/jest/package.json').version
++  const version = require('/usr/share/nodejs/jest/package.json').version
+   // ensure the above call doesn't actually fail
+   expect(valid(version)).not.toBeNull()
+   // real test
